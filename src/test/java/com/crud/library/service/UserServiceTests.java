@@ -1,6 +1,7 @@
 package com.crud.library.service;
 
 import com.crud.library.domain.User;
+import com.crud.library.exception.UserAlreadyExistException;
 import com.crud.library.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ public class UserServiceTests {
     private UserRepository userRepository;
 
     @Test
-    void createUserTest() {
+    void createUserTest() throws UserAlreadyExistException {
         //Given
         User user = User.builder()
                 .id(1L)

@@ -1,4 +1,4 @@
-package com.crud.library.controller;
+package com.crud.library.exception;
 
 public class WrongBookStatusException extends Exception {
 }

@@ -1,4 +1,4 @@
-package com.crud.library.controller;
+package com.crud.library.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +42,15 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(TitleAlreadyExistException.class)
     public ResponseEntity<Object> handleTitleAlreadyExistException(TitleAlreadyExistException exception ) {
         return new ResponseEntity<>("Title already exist.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TitleNotFoundException.class)
+    public ResponseEntity<Object> handleTitleNotFoundException(TitleNotFoundException exception ) {
+        return new ResponseEntity<>("Title with given id doesn't exist.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<Object> handleTitleAlreadyExistException(UserAlreadyExistException exception ) {
+        return new ResponseEntity<>("User already exist.", HttpStatus.BAD_REQUEST);
     }
 }

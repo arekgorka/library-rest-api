@@ -20,7 +20,6 @@ public class User {
 
     @Id
     @GeneratedValue
-    @NotNull
     @Column(name = "ID", unique = true)
     private Long id;
 

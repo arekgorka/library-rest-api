@@ -2,6 +2,7 @@ package com.crud.library.controller;
 
 import com.crud.library.domain.Title;
 import com.crud.library.domain.TitleDto;
+import com.crud.library.exception.TitleAlreadyExistException;
 import com.crud.library.mapper.TitleMapper;
 import com.crud.library.service.TitleService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class TitleController {
     private final TitleMapper titleMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createTitle(@RequestBody TitleDto titleDto) throws Exception {
+    public ResponseEntity<Void> createTitle(@RequestBody TitleDto titleDto) throws TitleAlreadyExistException {
         Title title = titleMapper.mapToTitle(titleDto);
         titleService.saveTitle(title);
         return ResponseEntity.ok().build();

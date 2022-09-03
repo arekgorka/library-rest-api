@@ -9,8 +9,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BorrowingDto {
 
+    private Long id;
     private Long bookId;
     private Long userId;
     private LocalDate dateOfRental;
     private LocalDate dateOfReturn;
+
 }
