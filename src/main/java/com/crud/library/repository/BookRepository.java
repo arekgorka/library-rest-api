@@ -17,4 +17,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
     @Modifying
     @Query(value = "update BOOKS set status= :bookStatus where id= :bookId")
     void updateBookStatus(Long bookId, String bookStatus);
+
+    long countBookByStatusAndTitleId(String status, Long titleId);
 }

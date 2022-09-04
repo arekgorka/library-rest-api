@@ -12,10 +12,7 @@ import java.util.Optional;
 @Repository
 public interface TitleRepository extends CrudRepository<Title, Long> {
 
-    @Override
-    Title save(Title title);
-
-    List<Title> findTitlesByBookTitle(String bookTitle);
+    Optional<Title> findTitleByBookTitle(String bookTitle);
 
     boolean existsByBookTitleAndAuthor(String bookTitle, String author);
 

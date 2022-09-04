@@ -6,6 +6,7 @@ import com.crud.library.repository.BookRepository;
 import com.crud.library.repository.BorrowingRepository;
 import com.crud.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,8 +15,11 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class BorrowingService {
 
+    @Autowired
     private final BorrowingRepository borrowingRepository;
+    @Autowired
     private final BookRepository bookRepository;
+    @Autowired
     private final UserRepository userRepository;
 
     public void startBorrowing(final Borrowing borrowing)

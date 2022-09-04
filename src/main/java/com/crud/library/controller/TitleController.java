@@ -3,6 +3,7 @@ package com.crud.library.controller;
 import com.crud.library.domain.Title;
 import com.crud.library.domain.TitleDto;
 import com.crud.library.exception.TitleAlreadyExistException;
+import com.crud.library.exception.TitleNotFoundException;
 import com.crud.library.mapper.TitleMapper;
 import com.crud.library.service.TitleService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,9 @@ public class TitleController {
     }
 
     @GetMapping(value = "{bookTitle}")
-    public ResponseEntity<List<TitleDto>> getTitlesByBookTitle(@PathVariable String bookTitle) {
-       return ResponseEntity.ok(titleMapper.mapToListTitleDto(titleService.getTitles(bookTitle)));
+    public ResponseEntity<TitleDto> getAvailableBooksByBookTitle(@PathVariable String bookTitle) throws TitleNotFoundException {
+        Title title = titleService.getTitleWithAvailableBooks(bookTitle);
+        return ResponseEntity.ok(titleMapper.mapToTitleDtoWithAvailableBooks(title));
     }
 
 }

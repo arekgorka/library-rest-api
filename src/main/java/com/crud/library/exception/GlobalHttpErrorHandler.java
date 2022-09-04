@@ -34,11 +34,6 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Book status is not allowed.", HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(WrongDateOfRentalException.class)
-    public ResponseEntity<Object> handleWrongDateOfRentalException(WrongDateOfRentalException exception ) {
-        return new ResponseEntity<>("Date of rental is not allowed.", HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(TitleAlreadyExistException.class)
     public ResponseEntity<Object> handleTitleAlreadyExistException(TitleAlreadyExistException exception ) {
         return new ResponseEntity<>("Title already exist.", HttpStatus.BAD_REQUEST);

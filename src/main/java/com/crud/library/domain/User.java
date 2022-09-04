@@ -23,6 +23,9 @@ public class User {
     @Column(name = "ID", unique = true)
     private Long id;
 
+    @Column(name = "LOGIN")
+    private String login;
+
     @NotNull
     @Column(name = "FIRSTNAME")
     private String firstname;
@@ -31,7 +34,15 @@ public class User {
     @Column(name = "LASTNAME")
     private String lastname;
 
-    @NotNull
+
     @Column(name = "CREATED")
     private LocalDate created;
+
+    public User(Long id, String login, String firstname, String lastname) {
+        this.id = id;
+        this.login = login;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.created = LocalDate.now();
+    }
 }

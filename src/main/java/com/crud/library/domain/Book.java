@@ -28,4 +28,9 @@ public class Book {
     @NotNull
     @Column(name = "STATUS")
     private String status;
+
+    public Book(Title title) {
+        this.title = title;
+        this.status = BookStatus.AVAILABLE;
+    }
 }

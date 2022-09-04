@@ -15,24 +15,24 @@ public class TitleMapper {
                 titleDto.getId(),
                 titleDto.getBookTitle(),
                 titleDto.getAuthor(),
-                titleDto.getPublicDate(),
-                titleDto.getBookList()
+                titleDto.getPublicDate()
         );
     }
 
-    public TitleDto mapToTitleDto(final Title title) {
+    public TitleDto mapToTitleDtoWithAvailableBooks(final Title title) {
         return new TitleDto(
                 title.getId(),
                 title.getBookTitle(),
                 title.getAuthor(),
                 title.getPublicDate(),
-                title.getBookList()
+                title.getAvailableBooks()
         );
     }
 
-    public List<TitleDto> mapToListTitleDto(final List<Title> titles) {
+
+    /*public List<TitleDto> mapToListTitleDto(final List<Title> titles) {
         return titles.stream()
                 .map(this::mapToTitleDto)
                 .collect(Collectors.toList());
-    }
+    }*/
 }

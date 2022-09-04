@@ -15,5 +15,10 @@ public class TitleDto {
     private String bookTitle;
     private String author;
     private LocalDate publicDate;
-    private List<Book> bookList = new ArrayList<>();
+    private long availableBook;
+
+    /*public TitleDto(String bookTitle, int availableBook) {
+        this.bookTitle = bookTitle;
+        this.availableBook = availableBook;
+    }*/
 }

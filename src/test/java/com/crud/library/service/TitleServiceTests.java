@@ -59,7 +59,7 @@ public class TitleServiceTests {
         titleService.saveTitle(title);
         long id = title.getId();
         //When
-        List<Title> titleList = titleService.getTitles("Billy Summers");
+        List<Title> titleList = titleService.getTitle("Billy Summers");
         //Then
         Assertions.assertEquals(1, titleList.size());
         //CleanUp

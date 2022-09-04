@@ -1,9 +1,6 @@
 package com.crud.library.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @Entity(name = "TITLES")
 public class Title {
 
@@ -31,7 +29,7 @@ public class Title {
     @Column(name = "AUTHOR")
     private String author;
 
-    @NotNull
+    //@NotNull
     @Column(name = "PUBLICDATE")
     private LocalDate publicDate;
 
@@ -41,5 +39,15 @@ public class Title {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Book> bookList = new ArrayList<>();
+    private List<Book> bookList;
+
+    @Column(name = "AVAILABLE_BOOKS")
+    private long availableBooks;
+
+    public Title(Long id, String bookTitle, String author, LocalDate publicDate) {
+        this.id = id;
+        this.bookTitle = bookTitle;
+        this.author = author;
+        this.publicDate = publicDate;
+    }
 }

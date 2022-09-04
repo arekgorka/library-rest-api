@@ -11,6 +11,7 @@ import java.util.Date;
 public class UserDto {
 
     private Long id;
+    private String login;
     private String firstname;
     private String lastname;
     private LocalDate created;

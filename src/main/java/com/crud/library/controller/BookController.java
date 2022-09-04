@@ -21,15 +21,15 @@ public class BookController {
     private final BookMapper bookMapper;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createBook(@RequestBody BookDto bookDto) throws WrongBookStatusException, TitleNotFoundException {
-        Book book = bookMapper.mapToBook(bookDto);
+    public ResponseEntity<Void> createBook(@RequestBody BookDto bookDto) throws TitleNotFoundException {
+        Book book = bookMapper.mapToSaveBook(bookDto);
         bookService.saveBook(book);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping(value = "{bookId}/{bookStatus}")
     public ResponseEntity<Void> updateBookStatus(@PathVariable Long bookId, @PathVariable String bookStatus)
-            throws BookNotFoundException, WrongBookStatusException{
+            throws BookNotFoundException, WrongBookStatusException, TitleNotFoundException {
         bookService.updateBookStatus(bookId, bookStatus);
         return ResponseEntity.ok().build();
     }

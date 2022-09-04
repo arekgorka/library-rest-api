@@ -22,6 +22,12 @@ public class BookMapper {
         );
     }
 
+    public Book mapToSaveBook(final BookDto bookDto) throws TitleNotFoundException {
+        return new Book(
+                titleService.findTitleById(bookDto.getTitleId())
+        );
+    }
+
     /*public BookDto mapToBookDto(final Book book) {
         return new BookDto(
                 book.getId(),

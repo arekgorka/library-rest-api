@@ -7,6 +7,7 @@ import com.crud.library.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,10 +16,13 @@ import org.springframework.stereotype.Service;
 @Getter
 public class UserService {
 
+    @Autowired
     private UserRepository userRepository;
 
     public void saveUser(final User user) throws UserAlreadyExistException {
-        if (userRepository.existsById(user.getId())) {
+        if (userRepository.count()==0) {
+            userRepository.save(user);
+        } else if (userRepository.existsByLogin(user.getLogin())) {
             throw new UserAlreadyExistException();
         } else {
             userRepository.save(user);
