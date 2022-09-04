@@ -39,7 +39,7 @@ public class BorrowingService {
             throws UserNotFoundException, BookNotFoundException, BookIsNotBorrowedException {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
-        Borrowing borrowing = borrowingRepository.getBorrowingByUserAndBookId(user.getId(),book.getId());
+        Borrowing borrowing = borrowingRepository.findBorrowingByUserIdAndBookId(user.getId(),book.getId());
         borrowing.setDateOfReturn(LocalDate.now());
         if (book.getStatus().equals(BookStatus.BORROWED)) {
             bookRepository.updateBookStatus(book.getId(),BookStatus.AVAILABLE);

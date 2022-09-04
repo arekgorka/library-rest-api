@@ -1,6 +1,7 @@
 package com.crud.library.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,8 +42,7 @@ public class Title {
     )
     private List<Book> bookList;
 
-    @Column(name = "AVAILABLE_BOOKS")
-    private long availableBooks;
+    private int availableBooks;
 
     public Title(Long id, String bookTitle, String author, LocalDate publicDate) {
         this.id = id;

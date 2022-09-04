@@ -18,19 +18,14 @@ public class BookService {
 
     @Autowired
     private final BookRepository bookRepository;
-    @Autowired
-    private final TitleRepository titleRepository;
 
-    public void saveBook(final Book book) throws TitleNotFoundException {
+    public void saveBook(final Book book) {
             bookRepository.save(book);
-            Title title = titleRepository.findById(book.getTitle().getId()).orElseThrow(TitleNotFoundException::new);
-            title.setAvailableBooks(bookRepository.countBookByStatusAndTitleId(book.getStatus(), title.getId()));
     }
 
     public void updateBookStatus (final Long bookId,final String bookStatus) throws
-            BookNotFoundException, WrongBookStatusException, TitleNotFoundException {
+            BookNotFoundException, WrongBookStatusException {
         Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
-        updateAmountOfAvailableBooks(book,bookStatus);
         if (bookStatus.equals(BookStatus.AVAILABLE) || bookStatus.equals(BookStatus.BORROWED) || bookStatus.equals(BookStatus.LOST)) {
             bookRepository.updateBookStatus(book.getId(), bookStatus);
         } else {
@@ -42,21 +37,4 @@ public class BookService {
          return bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
     }
 
-    public void updateAmountOfAvailableBooks(final Book book, final String bookStatus) throws BookNotFoundException, TitleNotFoundException {
-        Book theBook = findBookById(book.getId());
-        Title title = titleRepository.findById(theBook.getTitle().getId()).orElseThrow(TitleNotFoundException::new);
-        if (theBook.getStatus().equals(BookStatus.AVAILABLE) && bookStatus.equals(BookStatus.BORROWED)) {
-            title.setAvailableBooks(title.getAvailableBooks() - 1);
-        }
-        if (theBook.getStatus().equals(BookStatus.AVAILABLE) && bookStatus.equals(BookStatus.LOST)) {
-            title.setAvailableBooks(title.getAvailableBooks() - 1);
-        }
-        if (theBook.getStatus().equals(BookStatus.BORROWED) && bookStatus.equals(BookStatus.AVAILABLE)) {
-            title.setAvailableBooks(title.getAvailableBooks() + 1);
-        }
-        if (theBook.getStatus().equals(BookStatus.LOST) && bookStatus.equals(BookStatus.AVAILABLE)) {
-            title.setAvailableBooks(title.getAvailableBooks() + 1);
-        }
-
-    }
 }

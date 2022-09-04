@@ -21,5 +21,5 @@ public interface BorrowingRepository extends CrudRepository<Borrowing, Long> {
     void updateDateOfReturnBorrowing(Long borrowingId, LocalDate dateOfReturn);*/
 
 
-    Borrowing getBorrowingByUserAndBookId(Long userId, Long bookId); //check
+    Borrowing findBorrowingByUserIdAndBookId(Long userId, Long bookId); //check
 }

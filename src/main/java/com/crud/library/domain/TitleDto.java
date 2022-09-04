@@ -15,7 +15,7 @@ public class TitleDto {
     private String bookTitle;
     private String author;
     private LocalDate publicDate;
-    private long availableBook;
+    private int availableBook;
 
     /*public TitleDto(String bookTitle, int availableBook) {
         this.bookTitle = bookTitle;

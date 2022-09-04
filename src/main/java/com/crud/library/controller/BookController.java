@@ -29,7 +29,7 @@ public class BookController {
 
     @PutMapping(value = "{bookId}/{bookStatus}")
     public ResponseEntity<Void> updateBookStatus(@PathVariable Long bookId, @PathVariable String bookStatus)
-            throws BookNotFoundException, WrongBookStatusException, TitleNotFoundException {
+            throws BookNotFoundException, WrongBookStatusException {
         bookService.updateBookStatus(bookId, bookStatus);
         return ResponseEntity.ok().build();
     }

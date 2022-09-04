@@ -2,6 +2,7 @@ package com.crud.library.mapper;
 
 import com.crud.library.domain.Title;
 import com.crud.library.domain.TitleDto;
+import com.crud.library.service.TitleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,6 +10,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class TitleMapper {
+
+
+    private TitleService titleService;
 
     public Title mapToTitle(final TitleDto titleDto) {
         return new Title(
