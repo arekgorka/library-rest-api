@@ -40,12 +40,13 @@ public class BorrowingService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
         Borrowing borrowing = borrowingRepository.findBorrowingByUserIdAndBookId(user.getId(),book.getId());
-        borrowing.setDateOfReturn(LocalDate.now());
+        //borrowing.setDateOfReturn(LocalDate.now());
         if (book.getStatus().equals(BookStatus.BORROWED)) {
             bookRepository.updateBookStatus(book.getId(),BookStatus.AVAILABLE);
         } else {
             throw new BookIsNotBorrowedException();
         }
-        //borrowingRepository.updateDateOfReturnBorrowing(borrowing.getId(),dateReturn);
+        LocalDate dateReturn = LocalDate.now();
+        borrowingRepository.updateDateOfReturnBorrowing(borrowing.getId(),dateReturn);
     }
 }
