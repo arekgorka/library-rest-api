@@ -1,8 +1,10 @@
 package com.crud.library.service;
 
+import com.crud.library.domain.BookStatus;
 import com.crud.library.exception.TitleAlreadyExistException;
 import com.crud.library.domain.Book;
 import com.crud.library.domain.Title;
+import com.crud.library.repository.BookRepository;
 import com.crud.library.repository.TitleRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,87 +17,79 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+//@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class TitleServiceTests {
 
-    //@InjectMocks
-    private TitleService titleService;
-    //@Mock
     @Autowired
-    TitleRepository titleRepository;
-
-    /*@Test
-    public void createTitleTest() throws Exception {
-        //Given
-        List<Book> bookList = new ArrayList<>();
-        Title title = Title.builder()
-                .id(1L)
-                .bookTitle("Billy Summers")
-                .author("Stephen King")
-                .publicDate(LocalDate.of(2019,2,20))
-                .bookList(bookList)
-                .build();
-        //When
-        titleService.saveTitle(title);
-        //Then
-        verify(titleRepository).save(any(Title.class));
-    }*/
+    private TitleService titleService;
+    @Autowired
+    private TitleRepository titleRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     @Test
-    public void getTitlesByBookTitleTest() throws Exception {
+    public void createTitleTest() throws TitleAlreadyExistException {
         //Given
-        TitleService titleService = new TitleService(titleRepository);
-        List<Book> bookList = new ArrayList<>();
-        Title title = Title.builder()
-                .bookTitle("Billy Summers")
-                .author("Stephen King")
-                .publicDate(LocalDate.of(2019,2,20))
-                .bookList(bookList)
-                .build();
-        titleService.saveTitle(title);
-        long id = title.getId();
+        Title title = new Title("Billy", "Zommer", LocalDate.of(1999,12,10));
         //When
-        List<Title> titleList = titleService.getTitle("Billy Summers");
+        titleRepository.save(title);
         //Then
-        Assertions.assertEquals(1, titleList.size());
+        assertTrue(titleRepository.existsById(title.getId()));
         //CleanUp
-        titleRepository.deleteById(id);
+        titleRepository.deleteById(title.getId());
     }
 
     @Test
-    public void saveTwoTimesSameTitleTest() throws Exception {
+    public void getAvailableBooksByBookTitleTest() throws Exception {
         //Given
-        TitleService titleService = new TitleService(titleRepository);
-        List<Book> bookList1 = new ArrayList<>();
-        List<Book> bookList2 = new ArrayList<>();
-        Title title1 = Title.builder()
-                .bookTitle("Billy Summers")
-                .author("Stephen King")
-                .publicDate(LocalDate.of(2019,2,20))
-                .bookList(bookList1)
-                .build();
-        Title title2 = Title.builder()
-                .bookTitle("Billy Summers")
-                .author("Stephen King")
-                .publicDate(LocalDate.of(2019,2,20))
-                .bookList(bookList2)
-                .build();
-        titleRepository.deleteAll();
-        titleService.saveTitle(title1);
-        long id = title1.getId();
+        //List<Book> bookList = new ArrayList<>();
+        Title title1 = new Title("Billy Summers","Stephen King",LocalDate.of(2019,2,20));
+        Title title2 = new Title("ABC","XYZ",LocalDate.of(2019,2,20));
+        titleRepository.save(title1);
+        titleRepository.save(title2);
+        Book book1 = new Book(title1, BookStatus.AVAILABLE);
+        Book book2 = new Book(title1, BookStatus.LOST);
+        Book book3 = new Book(title1, BookStatus.BORROWED);
+        Book book4 = new Book(title2, BookStatus.AVAILABLE);
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+        bookRepository.save(book3);
+        bookRepository.save(book4);
+        //When
+        Title titleWithAvailableBooks = titleService.getTitleWithAvailableBooks("Billy Summers");
+        //Then
+        assertEquals(1L, titleWithAvailableBooks.getAvailableBooks());
+        //CleanUp
+        bookRepository.deleteById(book1.getId());
+        bookRepository.deleteById(book2.getId());
+        bookRepository.deleteById(book3.getId());
+        bookRepository.deleteById(book4.getId());
+        titleRepository.deleteById(title1.getId());
+        titleRepository.deleteById(title2.getId());
+    }
+
+    @Test
+    public void saveTwoTimesSameTitleTest() throws TitleAlreadyExistException {
+        //Given
+        Title title1 = new Title("Billy Summers", "Stephen King", LocalDate.of(2019,12,10));
+        Title title2 = new Title(1L,"Billy Summers", "Stephen King", LocalDate.of(2019,12,10));
+
+        titleRepository.save(title1);
         //When
         try {
             titleService.saveTitle(title2);
         } catch (TitleAlreadyExistException e) {
-            System.out.println("Exception: " + e);
+            System.out.println("Exception: " + e );
         }
         //Then
-        Assertions.assertEquals(1L, titleRepository.count());
+        assertFalse(titleRepository.existsById(title2.getId()));
         //CleanUp
-        titleRepository.deleteById(id);
+        titleRepository.deleteById(title1.getId());
     }
 }

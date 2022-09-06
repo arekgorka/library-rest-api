@@ -22,11 +22,11 @@ public class Title {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @NotNull
+    //@NotNull
     @Column(name = "BOOKTITLE", unique = true)
     private String bookTitle;
 
-    @NotNull
+    //@NotNull
     @Column(name = "AUTHOR")
     private String author;
 
@@ -38,10 +38,11 @@ public class Title {
             targetEntity = Book.class,
             mappedBy = "title",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Book> bookList;
 
+    @Column(name = "AVAILABLE_BOOKS")
     private int availableBooks;
 
     public Title(Long id, String bookTitle, String author, LocalDate publicDate) {
@@ -49,5 +50,21 @@ public class Title {
         this.bookTitle = bookTitle;
         this.author = author;
         this.publicDate = publicDate;
+    }
+
+    public Title(String bookTitle, String author, LocalDate publicDate) {
+        this.bookTitle = bookTitle;
+        this.author = author;
+        this.publicDate = publicDate;
+    }
+
+    public int getAvailableBooks() {
+        int availableBooks = 0;
+        for (Book book : bookList) {
+            if (book.getStatus().equals(BookStatus.AVAILABLE)) {
+                availableBooks++;
+            }
+        }
+        return availableBooks;
     }
 }

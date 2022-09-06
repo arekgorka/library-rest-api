@@ -45,4 +45,11 @@ public class User {
         this.lastname = lastname;
         this.created = LocalDate.now();
     }
+
+    public User(String login, String firstname, String lastname, LocalDate created) {
+        this.login = login;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.created = created;
+    }
 }

@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -22,7 +24,26 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class UserServiceTests {
 
-    @InjectMocks
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    public void saveUserTest() {
+        //Given
+        User user = new User("login","firstname","lastname",LocalDate.now());
+        //When
+        userRepository.save(user);
+        //Then
+        assertTrue(userRepository.existsById(user.getId()));
+        //CleanUp
+        userRepository.deleteById(user.getId());
+    }
+
+    //Given
+    //When
+    //Then
+    //CleanUp
+    /*@InjectMocks
     public UserService userService;
     @Mock
     private UserRepository userRepository;
@@ -40,5 +61,5 @@ public class UserServiceTests {
         userService.saveUser(user);
         //Then
         verify(userRepository).save(any(User.class));
-    }
+    }*/
 }

@@ -33,4 +33,9 @@ public class Book {
         this.title = title;
         this.status = BookStatus.AVAILABLE;
     }
+
+    public Book(Title title, String status) {
+        this.title = title;
+        this.status = status;
+    }
 }

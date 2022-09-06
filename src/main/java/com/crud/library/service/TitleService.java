@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,10 +39,8 @@ public class TitleService {
 
     public Title getTitleWithAvailableBooks(final String bookTitle) throws TitleNotFoundException {
         Title foundTitle = titleRepository.findTitleByBookTitle(bookTitle).orElseThrow(TitleNotFoundException::new);
-        List<Book> books = foundTitle.getBookList().stream()
-                .filter(book -> book.getStatus().equals(BookStatus.AVAILABLE))
-                .collect(Collectors.toList());
-        foundTitle.setAvailableBooks(books.size());
+        int availableBooks = foundTitle.getAvailableBooks();
+        foundTitle.setAvailableBooks(availableBooks);
         return foundTitle;
     }
 
@@ -49,6 +48,7 @@ public class TitleService {
     public Title findTitleById(final Long titleId) throws TitleNotFoundException {
         return titleRepository.findById(titleId).orElseThrow(TitleNotFoundException::new);
     }
+
 }
 
 
