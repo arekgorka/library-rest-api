@@ -3,6 +3,7 @@ package com.crud.library.service;
 import com.crud.library.domain.*;
 import com.crud.library.exception.BookNotAvailableException;
 import com.crud.library.exception.BookNotFoundException;
+import com.crud.library.exception.TitleNotFoundException;
 import com.crud.library.exception.UserNotFoundException;
 import com.crud.library.repository.BookRepository;
 import com.crud.library.repository.BorrowingRepository;
@@ -30,9 +31,9 @@ public class BorrowingServiceTests {
     private UserRepository userRepository;
 
     @Test
-    public void saveBorrowingTest() throws UserNotFoundException, BookNotFoundException, BookNotAvailableException {
+    public void saveBorrowingTest() throws UserNotFoundException, BookNotFoundException, BookNotAvailableException, TitleNotFoundException {
         //Given
-        User user = new User("login","firstname","lastname", LocalDate.now());
+        User user = new User("login2","firstname","lastname", LocalDate.now());
         userRepository.save(user);
         Title title = new Title("Billy", "Zommer", LocalDate.of(1999,12,10));
         titleRepository.save(title);
@@ -40,14 +41,21 @@ public class BorrowingServiceTests {
         bookRepository.save(book);
         Borrowing borrowing = new Borrowing(book,user);
         //When
-        borrowingRepository.save(borrowing);
+        borrowingService.startBorrowing(borrowing);
+        Borrowing startedBorrowing = borrowingRepository.findBorrowingByUserIdAndBookId(user.getId(),book.getId());
+        User savedUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+        Title savedTitle = titleRepository.findById(title.getId()).orElseThrow(TitleNotFoundException::new);
+        Book savedBook = bookRepository.findById(book.getId()).orElseThrow(BookNotFoundException::new);
         //then
-        assertTrue(borrowingRepository.existsById(borrowing.getId()));
+        assertTrue(borrowingRepository.existsById(startedBorrowing.getId()));
+        assertEquals(1,savedUser.getBorrowingsList().size());
+        assertEquals(0,savedTitle.getAvailableBooks());
+        assertEquals(BookStatus.BORROWED,savedBook.getStatus());
         //CleanUp
-        borrowingRepository.deleteById(borrowing.getId());
-        bookRepository.deleteById(book.getId());
-        titleRepository.deleteById(title.getId());
-        userRepository.deleteById(user.getId());
+        borrowingRepository.deleteById(startedBorrowing.getId());
+        bookRepository.deleteById(savedBook.getId());
+        titleRepository.deleteById(savedTitle.getId());
+        userRepository.deleteById(savedUser.getId());
     }
 
     @Test

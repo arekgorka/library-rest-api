@@ -37,7 +37,7 @@ public class Title {
     @OneToMany(
             targetEntity = Book.class,
             mappedBy = "title",
-            cascade = CascadeType.ALL,
+            /*cascade = CascadeType.ALL,*/
             fetch = FetchType.EAGER
     )
     private List<Book> bookList;

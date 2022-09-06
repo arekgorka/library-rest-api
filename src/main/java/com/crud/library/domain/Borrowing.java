@@ -25,7 +25,7 @@ public class Borrowing {
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 
-    @OneToOne(/*cascade = CascadeType.ALL,*/ fetch = FetchType.EAGER)
+    @ManyToOne(/*cascade = CascadeType.ALL,*/ fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 

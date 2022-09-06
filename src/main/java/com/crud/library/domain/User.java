@@ -3,13 +3,11 @@ package com.crud.library.domain;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -34,9 +32,16 @@ public class User {
     @Column(name = "LASTNAME")
     private String lastname;
 
-
     @Column(name = "CREATED")
     private LocalDate created;
+
+    @OneToMany(
+            targetEntity = Borrowing.class,
+            mappedBy = "user",
+            /*cascade = CascadeType.ALL,*/
+            fetch = FetchType.EAGER
+    )
+    private List<Borrowing> borrowingsList;
 
     public User(Long id, String login, String firstname, String lastname) {
         this.id = id;
