@@ -39,7 +39,7 @@ public class BorrowingServiceTests {
         Borrowing borrowing = new Borrowing(book,user);
         //When
         borrowingService.startBorrowing(borrowing);
-        Borrowing startedBorrowing = borrowingRepository.findBorrowingByUserIdAndBookId(user.getId(),book.getId());
+        Borrowing startedBorrowing = borrowingService.getActiveBorrowing(user.getId(), book.getId());
         User savedUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         Title savedTitle = titleRepository.findById(title.getId()).orElseThrow(TitleNotFoundException::new);
         Book savedBook = bookRepository.findById(book.getId()).orElseThrow(BookNotFoundException::new);
@@ -69,11 +69,12 @@ public class BorrowingServiceTests {
         User savedUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         Book savedBook = bookRepository.findById(book.getId()).orElseThrow(BookNotFoundException::new);
         Title savedTitle = titleRepository.findById(title.getId()).orElseThrow(TitleNotFoundException::new);
+        Borrowing startedBorrowing = borrowingService.getActiveBorrowing(user.getId(), book.getId());
         //Then
         borrowingService.returnBook(savedUser.getId(), savedBook.getId());
         Book returnedBook = bookRepository.findById(savedBook.getId()).orElseThrow(BookNotFoundException::new);
         Title returnedTitle = titleRepository.findById(savedTitle.getId()).orElseThrow(TitleNotFoundException::new);
-        Borrowing returnedBorrowing = borrowingRepository.findBorrowingByUserIdAndBookId(savedUser.getId(), savedBook.getId());
+        Borrowing returnedBorrowing = borrowingRepository.findById(startedBorrowing.getId()).orElseThrow();
         //then
         assertEquals(BookStatus.AVAILABLE,returnedBook.getStatus());
         assertEquals(1,returnedTitle.getAvailableBooks());
