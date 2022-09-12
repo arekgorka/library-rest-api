@@ -32,8 +32,4 @@ public class BorrowingController {
         borrowingService.returnBook(userId, bookId);
         return ResponseEntity.ok().build();
     }
-    /*@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "return")
-    public void returnBook(@RequestParam Long userId, @RequestParam Long bookId) {
-        borrowingService.returnBook(userId, bookId);
-    }*/
 }

@@ -1,7 +1,5 @@
 package com.crud.library.service;
 
-import com.crud.library.domain.Book;
-import com.crud.library.domain.BookStatus;
 import com.crud.library.exception.TitleAlreadyExistException;
 import com.crud.library.domain.Title;
 import com.crud.library.exception.TitleNotFoundException;
@@ -11,10 +9,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +38,9 @@ public class TitleService {
         return foundTitle;
     }
 
-
     public Title findTitleById(final Long titleId) throws TitleNotFoundException {
         return titleRepository.findById(titleId).orElseThrow(TitleNotFoundException::new);
     }
-
 }
 
 

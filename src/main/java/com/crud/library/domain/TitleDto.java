@@ -16,9 +16,4 @@ public class TitleDto {
     private String author;
     private LocalDate publicDate;
     private int availableBook;
-
-    /*public TitleDto(String bookTitle, int availableBook) {
-        this.bookTitle = bookTitle;
-        this.availableBook = availableBook;
-    }*/
 }

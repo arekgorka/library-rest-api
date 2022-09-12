@@ -1,12 +1,8 @@
 package com.crud.library.domain;
 
 import lombok.*;
-import org.hibernate.annotations.Comment;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -22,22 +18,18 @@ public class Title {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    //@NotNull
     @Column(name = "BOOKTITLE", unique = true)
     private String bookTitle;
 
-    //@NotNull
     @Column(name = "AUTHOR")
     private String author;
 
-    //@NotNull
     @Column(name = "PUBLICDATE")
     private LocalDate publicDate;
 
     @OneToMany(
             targetEntity = Book.class,
             mappedBy = "title",
-            /*cascade = CascadeType.ALL,*/
             fetch = FetchType.EAGER
     )
     private List<Book> bookList;

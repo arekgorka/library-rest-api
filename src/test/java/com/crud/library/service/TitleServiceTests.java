@@ -4,25 +4,17 @@ import com.crud.library.domain.BookStatus;
 import com.crud.library.exception.TitleAlreadyExistException;
 import com.crud.library.domain.Book;
 import com.crud.library.domain.Title;
+import com.crud.library.exception.TitleNotFoundException;
 import com.crud.library.repository.BookRepository;
 import com.crud.library.repository.TitleRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
-//@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class TitleServiceTests {
 
@@ -34,7 +26,7 @@ public class TitleServiceTests {
     private BookRepository bookRepository;
 
     @Test
-    public void createTitleTest() throws TitleAlreadyExistException {
+    public void createTitleTest() {
         //Given
         Title title = new Title("Billy", "Zommer", LocalDate.of(1999,12,10));
         //When
@@ -46,9 +38,8 @@ public class TitleServiceTests {
     }
 
     @Test
-    public void getAvailableBooksByBookTitleTest() throws Exception {
+    public void getAvailableBooksByBookTitleTest() throws TitleNotFoundException {
         //Given
-        //List<Book> bookList = new ArrayList<>();
         Title title1 = new Title("Billy Summers","Stephen King",LocalDate.of(2019,2,20));
         Title title2 = new Title("ABC","XYZ",LocalDate.of(2019,2,20));
         titleRepository.save(title1);
@@ -75,7 +66,7 @@ public class TitleServiceTests {
     }
 
     @Test
-    public void saveTwoTimesSameTitleTest() throws TitleAlreadyExistException {
+    public void saveTwoTimesSameTitleTest() {
         //Given
         Title title1 = new Title("Billy Summers", "Stephen King", LocalDate.of(2019,12,10));
         Title title2 = new Title(1L,"Billy Summers", "Stephen King", LocalDate.of(2019,12,10));

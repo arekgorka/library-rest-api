@@ -11,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/v1/library/titles")
 @RequiredArgsConstructor
@@ -33,5 +31,4 @@ public class TitleController {
         Title title = titleService.getTitleWithAvailableBooks(bookTitle);
         return ResponseEntity.ok(titleMapper.mapToTitleDtoWithAvailableBooks(title));
     }
-
 }

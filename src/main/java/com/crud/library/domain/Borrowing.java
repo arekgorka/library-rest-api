@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -21,11 +20,11 @@ public class Borrowing {
     @Column(name = "ID", unique = true)
     private Long id;
 
-    @OneToOne(/*cascade = CascadeType.ALL,*/ fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "BOOK_ID")
     private Book book;
 
-    @ManyToOne(/*cascade = CascadeType.ALL,*/ fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 

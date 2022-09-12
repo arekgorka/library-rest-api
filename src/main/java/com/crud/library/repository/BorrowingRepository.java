@@ -21,8 +21,5 @@ public interface BorrowingRepository extends CrudRepository<Borrowing, Long> {
     @Query(value = "update BORROWINGS set dateOfReturn= :dateOfReturn where id= :borrowingId")
     void updateDateOfReturnBorrowing(Long borrowingId, LocalDate dateOfReturn);
 
-    /*@Override
-    List<Borrowing> findAll();*/
-
-    List<Borrowing> findBorrowingByUserIdAndBookId(Long userId, Long bookId); //check
+    List<Borrowing> findBorrowingByUserIdAndBookId(Long userId, Long bookId);
 }

@@ -1,12 +1,9 @@
 package com.crud.library.domain;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Builder
@@ -38,7 +35,6 @@ public class User {
     @OneToMany(
             targetEntity = Borrowing.class,
             mappedBy = "user",
-            /*cascade = CascadeType.ALL,*/
             fetch = FetchType.EAGER
     )
     private List<Borrowing> borrowingsList;
